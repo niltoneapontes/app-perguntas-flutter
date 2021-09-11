@@ -16,7 +16,13 @@ class PerguntaApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('Perguntas'),
         ),
-        body: Text('Faça sua pergunta'),
+        body: Column(
+          children: [
+            Text('Linha 1'),
+            Text('Linha 2'),
+            Text('Linha 3'),
+          ],
+        ),
       ),
     );
   }
