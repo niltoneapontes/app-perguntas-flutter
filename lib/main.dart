@@ -11,6 +11,11 @@ class PerguntaApp extends StatelessWidget {
   // estou dizendo que o método build deve ser obrigatoriamente como passado
   @override
   Widget build(BuildContext context) {
+    final List<String> perguntas = [
+      'Qual é a sua cor favorita?',
+      'Qual é o seu animal favorito?'
+    ];
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -18,9 +23,19 @@ class PerguntaApp extends StatelessWidget {
         ),
         body: Column(
           children: [
-            Text('Linha 1'),
-            Text('Linha 2'),
-            Text('Linha 3'),
+            Text(perguntas.elementAt(0))),
+            ElevatedButton(
+              child: Text('Resposta 1'),
+              onPressed: null
+            ),
+            ElevatedButton(
+              child: Text('Resposta 2'),
+              onPressed: null
+            ),
+            ElevatedButton(
+              child: Text('Resposta 3'),
+              onPressed: null
+            ),
           ],
         ),
       ),
