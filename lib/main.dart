@@ -7,8 +7,14 @@ import 'package:flutter/material.dart';
 main() => runApp(
     new PerguntaApp()); //recomenda-se usar arrow function aqui (em flutter só pode ter uma linha na arrow)
 
-class PerguntaApp extends StatelessWidget {
+// classe que gerencia o estado
+class PerguntaAppState extends State<PerguntaApp> {
+  var perguntaSelecionada = 0;
+
   void responder() {
+    setState(() {
+      perguntaSelecionada++;
+    });
     print('Pergunta respondida!');
   }
 
@@ -27,7 +33,7 @@ class PerguntaApp extends StatelessWidget {
         ),
         body: Column(
           children: [
-            Text(perguntas.elementAt(0)),
+            Text(perguntas.elementAt(perguntaSelecionada)),
             ElevatedButton(
                 child: Text('Resposta 1'),
                 onPressed: responder), // não colocar () no nome da função
@@ -41,5 +47,12 @@ class PerguntaApp extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+// classe do componente
+class PerguntaApp extends StatefulWidget {
+  PerguntaAppState createState() {
+    return PerguntaAppState();
   }
 }
