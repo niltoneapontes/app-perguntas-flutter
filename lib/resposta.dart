@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 
 class Resposta extends StatelessWidget {
-  String texto;
+  final String texto;
+  final void Function() whenSelected;
 
-  Resposta(this.texto);
+  Resposta(this.texto, this.whenSelected);
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return Container(
+      width: (MediaQuery.of(context).size.width) * 0.5,
+      child: ElevatedButton(
         child: Text(texto),
-        onPressed: null); // não colocar () no nome da função
+        onPressed: whenSelected,
+      ),
+    ); // não colocar () no nome da função
   }
 }

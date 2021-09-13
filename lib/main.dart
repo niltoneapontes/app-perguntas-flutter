@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import './questao.dart';
-import './resposta.dart';
+import './resultado.dart';
+import './questionario.dart';
 
 // main() {
 //   runApp(new PerguntaApp());
@@ -12,39 +12,86 @@ main() => runApp(
 // classe que gerencia o estado
 class _PerguntaAppState extends State<PerguntaApp> {
   var _perguntaSelecionada = 0;
+  int _pontuacaoTotal = 0;
 
-  void _responder() {
+  final List<Map<String, Object>> _perguntas = const [
+    {
+      'texto': 'Qual é sua cor favorita?',
+      'respostas': [
+        {'texto': 'Preto', 'pontuacao': 10},
+        {'texto': 'Vermelho', 'pontuacao': 5},
+        {'texto': 'Verde', 'pontuacao': 1},
+        {'texto': 'Azul', 'pontuacao': 0}
+      ]
+    },
+    {
+      'texto': 'Qual é o seu animal favorito?',
+      'respostas': [
+        {'texto': 'Gato', 'pontuacao': 10},
+        {'texto': 'Cachorro', 'pontuacao': 5},
+        {'texto': 'Leão', 'pontuacao': 1},
+        {'texto': 'Cobra', 'pontuacao': 0}
+      ]
+    },
+    {
+      'texto': 'Qual é o seu time favorito?',
+      'respostas': [
+        {'texto': 'Sport', 'pontuacao': 10},
+        {'texto': 'Santa Cruz', 'pontuacao': 5},
+        {'texto': 'Nautico', 'pontuacao': 1},
+        {'texto': 'Central', 'pontuacao': 0}
+      ]
+    }
+  ];
+
+  void _responder(int pontuacao) {
+    if (temPerguntaSelecionada) {
+      setState(() {
+        _perguntaSelecionada++;
+        _pontuacaoTotal += pontuacao;
+      });
+    }
+  }
+
+  void _reiniciarQuestionario() {
     setState(() {
-      _perguntaSelecionada++;
+      _perguntaSelecionada = 0;
+      _pontuacaoTotal = 0;
     });
-    print('Pergunta respondida!');
+  }
+
+  bool get temPerguntaSelecionada {
+    return _perguntaSelecionada < _perguntas.length;
+  }
+
+  String get fraseResultado {
+    if (_pontuacaoTotal < 8) {
+      return 'Vishe...';
+    } else if (_pontuacaoTotal < 15) {
+      return 'Quase lá!';
+    } else if (_pontuacaoTotal < 20) {
+      return 'Parabéns!';
+    } else {
+      return 'Nível Chuck Norris!';
+    }
   }
 
   // estou dizendo que o método build deve ser obrigatoriamente como passado
   @override
   Widget build(BuildContext context) {
-    final List<String> perguntas = [
-      'Qual é a sua cor favorita?',
-      'Qual é o seu animal favorito?'
-    ];
-
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text('Perguntas'),
         ),
-        body: Column(
-          children: [
-            Questao(perguntas[_perguntaSelecionada]),
-            Resposta('Resposta 1 ne'),
-            ElevatedButton(child: Text('Resposta 2'), onPressed: _responder),
-            ElevatedButton(
-                child: Text('Resposta 3'),
-                onPressed: () {
-                  _responder();
-                }),
-          ],
-        ),
+        body: temPerguntaSelecionada
+            ? Questionario(
+                perguntas: _perguntas,
+                perguntaSelecionada: _perguntaSelecionada,
+                quandoResponder: _responder)
+            : Resultado(
+                fraseResultado, _pontuacaoTotal, _reiniciarQuestionario),
+        backgroundColor: Color.fromARGB(70, 125, 125, 125),
       ),
     );
   }
